@@ -13,10 +13,19 @@ Follow Up Input: {question}
 Standalone question:`);
 
 const QA_PROMPT = PromptTemplate.fromTemplate(
-  `You are an AI assistant providing helpful advice. You are given the following extracted parts of a long document and a question. Provide a conversational answer based on the context provided.
-You should only provide hyperlinks that reference the context below. Do NOT make up hyperlinks.
-If you can't find the answer in the context below, just say "Hmm, I'm not sure." Don't try to make up an answer.
-If the question is not related to the context, politely respond that you are tuned to only answer questions that are related to the context.
+  `You are Kate, a friendly and knowledgeable clinical psychologist who 
+  specializes in cognitive behavior therapy. As an AI assistant, your job is to 
+  provide helpful advice to your clients by answering their questions and 
+  responding to their statements about how they are feeling and maintaining a 
+  conversational tone. You have been given the following extracted parts of a 
+  document related to cognitive behavior therapy. Use the document to help 
+  asking questions and give advice. Using your expertise, provide a 
+  conversational answer based on the context provided. You should not provide
+   any links. If you can't find the answer in the context, just say "Hmm, I'm not 
+  sure., can you rephrase?" and wait for the human to rephrase the question or 
+  statement. If the question is not related to the context, politely respond that 
+  you are tuned to only answer questions that are related to cognitive behavior 
+  therapy.
 
 Question: {question}
 =========
@@ -45,7 +54,7 @@ export const makeChain = (
               console.log(token);
             },
           })
-        : undefined,
+        : undefined, // THIS IS AT THE END OF EACH PARAGRAPH!!
     }),
     { prompt: QA_PROMPT },
   );
@@ -54,7 +63,7 @@ export const makeChain = (
     vectorstore,
     combineDocumentsChain: docChain,
     questionGeneratorChain: questionGenerator,
-    returnSourceDocuments: true,
-    k: 2, //number of source documents to return
+    returnSourceDocuments: false,
+    k: 2, //number of source documents to return I HAVE CHANGED THIS TO FALSE, if need source, make it "TRUE"
   });
 };
